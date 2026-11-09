@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 1: Actividad Práctica Accesible - Autogestión</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* High Contrast Theme Styles */
+        .high-contrast {
+            background-color: #000000 !important;
+            color: #FFFF00 !important;
+        }
+        .high-contrast button, 
+        .high-contrast input, 
+        .high-contrast textarea, 
+        .high-contrast select {
+            background-color: #000000 !important;
+            color: #FFFF00 !important;
+            border-color: #FFFF00 !important;
+        }
+        .high-contrast .card-bg {
+            background-color: #1a1a1a !important;
+            border: 3px solid #FFFF00 !important;
+        }
+        .high-contrast .accent-text {
+            color: #00FFFF !important;
+        }
+
+        /* Focus rings for enhanced accessibility */
+        *:focus-visible {
+            outline: 4px solid #2563eb !important;
+            outline-offset: 2px !important;
+        }
+        .high-contrast *:focus-visible {
+            outline: 4px solid #00FFFF !important;
+        }
+    </style>
+</head>
+<body id="app-body" class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col transition-colors duration-200">
+
+    <!-- Accessibility Bar / Header -->
+    <header class="bg-slate-900 text-white p-4 shadow-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <h1 class="text-lg md:text-xl font-bold flex items-center gap-2">
+                <i class="fa-solid fa-universal-access text-blue-400" aria-hidden="true"></i>
+                <span>Mi Plan de Autogestión</span>
+            </h1>
+            
+            <!-- Accessibility Controls -->
+            <div class="flex items-center gap-2 flex-wrap" role="toolbar" aria-label="Herramientas de accesibilidad">
+                <button id="btn-font-increase" onclick="changeFontSize(1)" class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-semibold flex items-center gap-1" aria-label="Aumentar tamaño de texto">
+                    <span aria-hidden="true">A+</span>
+                </button>
+                <button id="btn-font-decrease" onclick="changeFontSize(-1)" class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-semibold flex items-center gap-1" aria-label="Disminuir tamaño de texto">
+                    <span aria-hidden="true">A-</span>
+                </button>
+                <button id="btn-contrast" onclick="toggleHighContrast()" class="px-3 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-sm flex items-center gap-1" aria-label="Cambiar a Alto Contraste">
+                    <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i> Alto Contraste
+                </button>
+                <button id="btn-tts" onclick="toggleScreenReaderSupport()" class="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-semibold flex items-center gap-1" aria-label="Activar o desactivar voz de lectura asistida">
+                    <i class="fa-solid fa-volume-high" aria-hidden="true"></i> <span id="tts-label">Voz: Desactivada</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-4xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- Banner Explicativo DUA -->
+        <section class="card-bg bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-8">
+            <div class="flex items-center justify-between mb-2">
+                <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-full uppercase tracking-wider">
+                    Actividad Práctica Multisensorial
+                </span>
+                <button onclick="speakText('Construye tu propio plan de autogestión paso a paso. Diseñado con opciones visuales, auditivas y sencillas para tu ritmo de estudio.')" class="text-blue-600 hover:text-blue-800 p-2" aria-label="Escuchar instrucciones del módulo">
+                    <i class="fa-solid fa-circle-play text-2xl"></i>
+                </button>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-2 accent-text">
+                Módulo 1: Mi Plan de Acción Personal
+            </h2>
+            <p class="text-slate-600 leading-relaxed text-base">
+                Esta actividad te ayudará a organizar tu tiempo, adecuar tu espacio de estudio y definir tus metas académicas. Selecciona tus respuestas completando los 4 pasos siguientes.
+            </p>
+        </section>
+
+        <!-- Dynamic Form -->
+        <form id="activity-form" onsubmit="event.preventDefault();" class="space-y-8">
+
+            <!-- PASO 1: ENTORNO -->
+            <section id="step-1" class="card-bg bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-base">1</div>
+                        <h3 class="text-xl font-bold text-slate-800 accent-text">Mi Espacio de Estudio (Higiene Digital y Entorno)</h3>
+                    </div>
+                    <button type="button" onclick="speakText('Paso 1: Selecciona las condiciones que cumples hoy en tu espacio de estudio: ergonomía, iluminación y silenciamiento de notificaciones.')" class="text-blue-600 hover:text-blue-800 p-2" aria-label="Escuchar paso 1">
+                        <i class="fa-solid fa-volume-high text-xl"></i>
+                    </button>
+                </div>
+
+                <p class="text-sm text-slate-600 mb-4">Marca las condiciones que tienes listas hoy:</p>
+
+                <div class="space-y-3">
+                    <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" onchange="updateProgress()" class="mt-1 w-5 h-5 text-blue-600 rounded border-slate-300 focus:ring-blue-500">
+                        <span class="text-slate-800 font-medium">🪑 <strong>Ergonomía:</strong> Silla cómoda o dispositivo ubicado a buena altura.</span>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" onchange="updateProgress()" class="mt-1 w-5 h-5 text-blue-600 rounded border-slate-300 focus:ring-blue-500">
+                        <span class="text-slate-800 font-medium">💡 <strong>Iluminación:</strong> Buena luz para leer sin cansar los ojos.</span>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" onchange="updateProgress()" class="mt-1 w-5 h-5 text-blue-600 rounded border-slate-300 focus:ring-blue-500">
+                        <span class="text-slate-800 font-medium">📱 <strong>Higiene Digital:</strong> Notificaciones del celular en silencio o modo "No Molestar".</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- PASO 2: RITMO POMODORO -->
+            <section id="step-2" class="card-bg bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-base">2</div>
+                        <h3 class="text-xl font-bold text-slate-800 accent-text">Mi Tiempo de Concentración (Técnica Pomodoro)</h3>
+                    </div>
+                    <button type="button" onclick="speakText('Paso 2: Elige el tiempo de estudio continuo que prefieres usar hoy: 25 minutos, 50 minutos o un bloque progresivo corto de 15 minutos.')" class="text-blue-600 hover:text-blue-800 p-2" aria-label="Escuchar paso 2">
+                        <i class="fa-solid fa-volume-high text-xl"></i>
+                    </button>
+                </div>
+
+                <p class="text-sm text-slate-600 mb-4">Elige el bloque de tiempo que mejor se adapte a tu nivel de atención:</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <label class="block cursor-pointer">
+                        <input type="radio" name="pomodoro" value="Estándar (25 min de estudio / 5 min de descanso)" onchange="updateProgress()" class="peer sr-only">
+                        <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-green-500 peer-checked:bg-green-50/50 hover:bg-slate-50 transition h-full flex flex-col justify-between">
+                            <div>
+                                <span class="text-green-600 text-2xl font-bold block mb-1">🟢 Estándar</span>
+                                <p class="font-bold text-slate-800">25 min estudio / 5 min descanso</p>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="block cursor-pointer">
+                        <input type="radio" name="pomodoro" value="Extendido (50 min de estudio / 10 min de descanso)" onchange="updateProgress()" class="peer sr-only">
+                        <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50/50 hover:bg-slate-50 transition h-full flex flex-col justify-between">
+                            <div>
+                                <span class="text-amber-600 text-2xl font-bold block mb-1">🟡 Largo</span>
+                                <p class="font-bold text-slate-800">50 min estudio / 10 min descanso</p>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="block cursor-pointer">
+                        <input type="radio" name="pomodoro" value="Progresivo (15 a 20 min de estudio / 5 min de descanso)" onchange="updateProgress()" class="peer sr-only">
+                        <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-blue-500 peer-checked:bg-blue-50/50 hover:bg-slate-50 transition h-full flex flex-col justify-between">
+                            <div>
+                                <span class="text-blue-600 text-2xl font-bold block mb-1">🔵 Corto / Adaptado</span>
+                                <p class="font-bold text-slate-800">15 min estudio / 5 min descanso</p>
+                                <p class="text-xs text-slate-500 mt-2">Recomendado para evitar fatiga o si te cuesta empezar.</p>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </section>
+
+            <!-- PASO 3: PRIORIDADES -->
+            <section id="step-3" class="card-bg bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-base">3</div>
+                        <h3 class="text-xl font-bold text-slate-800 accent-text">Mis Prioridades de la Semana (Matriz Eisenhower)</h3>
+                    </div>
+                    <button type="button" onclick="speakText('Paso 3: Escribe o dicta una tarea urgente para entregar hoy y una tarea importante para planificar esta semana.')" class="text-blue-600 hover:text-blue-800 p-2" aria-label="Escuchar paso 3">
+                        <i class="fa-solid fa-volume-high text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="p-4 rounded-xl border border-red-200 bg-red-50/30">
+                        <label for="task-urgent" class="block font-bold text-red-800 mb-1">
+                            🔴 Tarea Urgente (Hacer Primero):
+                        </label>
+                        <input type="text" id="task-urgent" oninput="updateProgress()" placeholder="Ejemplo: Entregar el trabajo de hoy..." class="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-red-500 text-slate-800">
+                    </div>
+
+                    <div class="p-4 rounded-xl border border-blue-200 bg-blue-50/30">
+                        <label for="task-plan" class="block font-bold text-blue-800 mb-1">
+                            🔵 Tarea Importante (Planificar):
+                        </label>
+                        <input type="text" id="task-plan" oninput="updateProgress()" placeholder="Ejemplo: Leer la guía del viernes..." class="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 text-slate-800">
+                    </div>
+                </div>
+            </section>
+
+            <!-- PASO 4: VENCER LA PROCRASTINACIÓN -->
+            <section id="step-4" class="card-bg bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-base">4</div>
+                        <h3 class="text-xl font-bold text-slate-800 accent-text">Regla de los 5 Minutos (Vencer la Procrastinación)</h3>
+                    </div>
+                    <button type="button" onclick="speakText('Paso 4: Elige de qué forma visual, auditiva o práctica iniciarás tu tarea durante solo 5 minutos para romper la pereza o el estrés.')" class="text-blue-600 hover:text-blue-800 p-2" aria-label="Escuchar paso 4">
+                        <i class="fa-solid fa-volume-high text-xl"></i>
+                    </button>
+                </div>
+
+                <p class="text-sm text-slate-600 mb-3">¿Cómo vas a empezar tu actividad hoy por solo 5 minutos?</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="channel" value="👁️ Visual: Mirar imágenes o leer títulos" onchange="updateProgress()" class="peer sr-only">
+                        <div class="p-4 text-center rounded-xl border border-slate-200 peer-checked:border-purple-600 peer-checked:bg-purple-50 hover:bg-slate-50 transition">
+                            <i class="fa-solid fa-eye text-purple-600 text-2xl mb-2" aria-hidden="true"></i>
+                            <span class="block text-sm font-bold text-slate-800">👁️ Canal Visual</span>
+                            <span class="text-xs text-slate-500">Abrir el documento y revisar títulos</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer">
+                        <input type="radio" name="channel" value="🎧 Auditivo: Escuchar el resumen o audio de la guía" onchange="updateProgress()" class="peer sr-only">
+                        <div class="p-4 text-center rounded-xl border border-slate-200 peer-checked:border-purple-600 peer-checked:bg-purple-50 hover:bg-slate-50 transition">
+                            <i class="fa-solid fa-headphones text-purple-600 text-2xl mb-2" aria-hidden="true"></i>
+                            <span class="block text-sm font-bold text-slate-800">🎧 Canal Auditivo</span>
+                            <span class="text-xs text-slate-500">Escuchar con lector de voz</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer">
+                        <input type="radio" name="channel" value="✋ Práctico: Escribir la primera oración" onchange="updateProgress()" class="peer sr-only">
+                        <div class="p-4 text-center rounded-xl border border-slate-200 peer-checked:border-purple-600 peer-checked:bg-purple-50 hover:bg-slate-50 transition">
+                            <i class="fa-solid fa-hand text-purple-600 text-2xl mb-2" aria-hidden="true"></i>
+                            <span class="block text-sm font-bold text-slate-800">✋ Canal Práctico</span>
+                            <span class="text-xs text-slate-500">Organizar cuaderno o escribir borrador</span>
+                        </div>
+                    </label>
+                </div>
+            </section>
+
+            <!-- Actions Bar -->
+            <div class="flex flex-wrap gap-4 justify-between items-center pt-4">
+                <button type="button" onclick="resetForm()" class="px-4 py-2 border border-slate-300 text-slate-700 font-semibold rounded-xl hover:bg-slate-100 transition">
+                    <i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Reiniciar
+                </button>
+                <button type="button" onclick="generateSummary()" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg hover:bg-blue-700 transition flex items-center gap-2 text-base">
+                    <i class="fa-solid fa-square-check" aria-hidden="true"></i> Generar Mi Plan Accesible
+                </button>
+            </div>
+        </form>
+
+        <!-- Output Summary Card -->
+        <section id="summary-section" class="hidden mt-8 card-bg bg-white rounded-2xl p-6 shadow-md border-2 border-blue-500 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3 border-slate-200">
+                <h3 class="text-xl font-bold text-blue-800 accent-text flex items-center gap-2">
+                    <i class="fa-solid fa-clipboard-check text-blue-600" aria-hidden="true"></i>
+                    Tu Plan de Acción Personal
+                </h3>
+                <button type="button" onclick="speakSummary()" class="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm font-bold flex items-center gap-1">
+                    <i class="fa-solid fa-volume-high"></i> Escuchar Plan
+                </button>
+            </div>
+
+            <div id="summary-content" class="text-slate-800 space-y-3 text-base leading-relaxed">
+                <!-- Dynamic Content Generated Here -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-center text-xs py-4 mt-auto">
+        <p>Módulo 1: Fundamentos de la Autogestión Académica a Distancia • Cartilla Informativa Inclusiva</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let isHighContrast = false;
+        let isTTSEnabled = false;
+        let currentFontScale = 1;
+
+        function changeFontSize(direction) {
+            currentFontScale += direction * 0.1;
+            if (currentFontScale < 0.9) currentFontScale = 0.9;
+            if (currentFontScale > 1.3) currentFontScale = 1.3;
+            document.body.style.fontSize = `${currentFontScale}rem`;
+        }
+
+        function toggleHighContrast() {
+            isHighContrast = !isHighContrast;
+            const body = document.getElementById('app-body');
+            if (isHighContrast) {
+                body.classList.add('high-contrast');
+            } else {
+                body.classList.remove('high-contrast');
+            }
+        }
+
+        function toggleScreenReaderSupport() {
+            isTTSEnabled = !isTTSEnabled;
+            const label = document.getElementById('tts-label');
+            const btn = document.getElementById('btn-tts');
+            if (isTTSEnabled) {
+                label.innerText = "Voz: Activada";
+                btn.classList.replace('bg-blue-600', 'bg-green-600');
+                speakText("Voz activada. Toca los íconos de altavoz para escuchar el contenido.");
+            } else {
+                label.innerText = "Voz: Desactivada";
+                btn.classList.replace('bg-green-600', 'bg-blue-600');
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES';
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function updateProgress() {}
+
+        function generateSummary() {
+            const pomodoro = document.querySelector('input[name="pomodoro"]:checked')?.value || 'No seleccionado';
+            const urgentTask = document.getElementById('task-urgent').value || 'Sin especificar';
+            const planTask = document.getElementById('task-plan').value || 'Sin especificar';
+            const channel = document.querySelector('input[name="channel"]:checked')?.value || 'No seleccionado';
+
+            const summaryHTML = `
+                <p><strong>1. Tiempo Pomodoro:</strong> ${pomodoro}</p>
+                <p><strong>2. Tarea Urgente (Hacer primero):</strong> ${urgentTask}</p>
+                <p><strong>3. Tarea Importante (Planificar):</strong> ${planTask}</p>
+                <p><strong>4. Canal de inicio de 5 minutos:</strong> ${channel}</p>
+            `;
+
+            document.getElementById('summary-content').innerHTML = summaryHTML;
+            const summarySection = document.getElementById('summary-section');
+            summarySection.classList.remove('hidden');
+            summarySection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function speakSummary() {
+            const text = document.getElementById('summary-content').innerText;
+            speakText("Resumen de tu plan de autogestión. " + text);
+        }
+
+        function resetForm() {
+            document.getElementById('activity-form').reset();
+            document.getElementById('summary-section').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
